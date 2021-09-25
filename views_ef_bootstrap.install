@@ -1,0 +1,29 @@
+<?php
+
+/**
+ * @file
+ * Module install file.
+ */
+
+use Drupal\Core\Extension\Extension;
+
+/**
+ * Implements hook_install().
+ */
+function views_ef_bootstrap_install() {
+  module_set_weight("views_ef_bootstrap", 99999);
+  $extenders = \Drupal::configFactory()->getEditable('views.settings')->get('display_extenders');
+  $extenders[] = 'views_ef_bootstrap';
+  \Drupal::configFactory()->getEditable('views.settings')->set('display_extenders', $extenders)->save();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function views_ef_bootstrap_uninstall() {
+  $config = \Drupal::config('views.settings')->get('display_extenders');
+  if (($key = array_search('views_ef_bootstrap', $config, TRUE)) !== FALSE) {
+    unset($config[$key]);
+  }
+  \Drupal::configFactory()->getEditable('views.settings')->set('display_extenders', $config)->save();
+}

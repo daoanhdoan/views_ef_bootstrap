@@ -1,0 +1,9 @@
+name: Views Exposed Form Bootstrap
+description: "Provide an option to render the exposed form widgets in a bootstrap."
+core: 8.x
+core_version_requirement: ^8 || ^9 || ^10
+type: module
+package: Views
+dependencies:
+ - drupal:views
+ - drupal:bootstrap_library

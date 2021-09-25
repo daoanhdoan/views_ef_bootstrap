@@ -1,0 +1,15 @@
+{
+    "name" : "daoanhdoan/views_ef_bootstrap",
+    "description": "Views Exposed Form Bootstrap - Provide an option to render the exposed form widgets in a bootstrap.",
+    "type" : "drupal-custom-module",
+    "license": "GPL-2.0+",
+    "extra": {
+        "installer-name": "views_ef_bootstrap"
+    },
+    "require": {
+        "drupal/views": "*",
+        "drupal/filter": "*",
+        "drupal/user": "*",
+        "drupal/system": "*"
+    }
+}
