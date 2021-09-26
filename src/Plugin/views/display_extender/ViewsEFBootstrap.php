@@ -287,7 +287,7 @@ class ViewsEFBootstrap extends DefaultDisplayExtender {
       ]
     ];
 
-    $items = $this->getExposeItems();dpm($items);
+    $items = $this->getExposeItems();
     $rows = $this->buildRows($items);
 
     foreach ($rows as $row) {
