@@ -386,8 +386,6 @@ class ViewsEFBootstrap extends DefaultDisplayExtender {
         }
       }
     }
-    // Automatically get sorted results.
-    usort($form, [SortArray::class, 'sortByWeightElement']);
     return empty($branch) ? [] : $branch;
   }
 
