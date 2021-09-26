@@ -22,3 +22,17 @@ function views_ef_bootstrap_form_views_exposed_form_alter(array &$form, FormStat
     }
   }
 }
+
+/**
+ *
+ */
+function views_ef_bootstrap_preprocess_details(&$vars) {
+  if (!empty($vars['element']['#item']['bootstrap'])) {
+    $element = [
+      '#type' => 'container',
+      '#attributes' => ['class' => ['row']],
+      '#children' => $vars['children']
+    ];
+    $vars['children'] = \Drupal::service('renderer')->render($element, FALSE);
+  }
+}

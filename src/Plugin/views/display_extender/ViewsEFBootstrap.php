@@ -2,7 +2,6 @@
 namespace Drupal\views_ef_bootstrap\Plugin\views\display_extender;
 
 use Drupal\Component\Utility\Html;
-use Drupal\Component\Utility\SortArray;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\views\Plugin\views\display_extender\DefaultDisplayExtender;
 use Drupal\Core\Render\RendererInterface;
@@ -522,16 +521,10 @@ class ViewsEFBootstrap extends DefaultDisplayExtender {
    */
   public function submitOptionsForm(&$form, FormStateInterface $form_state) {
     // Only process options if this is an unrelated form.
-    /*if ($form_state->get('section') === 'exposed_form_options') {
+    if ($form_state->get('section') === 'exposed_form_options') {
       $views_ef_bootstrap = $form_state->getValue('views_ef_bootstrap');
-      foreach ($views_ef_bootstrap['options']['sort'] as $key => $data) {
-        $data += $data['item'];
-        unset($data['item']);
-        $views_ef_bootstrap['options']['sort'][$key] = $data;
-      }
-
       $this->options['views_ef_bootstrap'] = $views_ef_bootstrap;
-    }*/
+    }
     parent::submitOptionsForm($form, $form_state);
   }
 
