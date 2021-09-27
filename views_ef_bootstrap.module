@@ -4,6 +4,7 @@
  * Main module file.
  */
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\views\ViewExecutable;
 
 /**
@@ -45,6 +46,14 @@ function views_ef_bootstrap_form_alter(&$form, FormStateInterface $formState, $f
     if (!empty($form['header']['views_bulk_operations_bulk_form'])) {
       $form['header']['views_bulk_operations_bulk_form']['#type'] = 'details';
       $form['header']['views_bulk_operations_bulk_form']['#title'] = t('Operations');
+      if (!empty($form['actions']['submit'])) {
+        if ($form['actions']['submit']['#value'] instanceof TranslatableMarkup) {
+          $form['actions']['submit']['#value'] = $form['actions']['submit']['#value']->__toString();
+        }
+        if ($form['actions']['submit']['#value'] === t('Apply to selected items')->__toString()) {
+          $form['actions']['submit']['#attributes'] = ['class' => ['visually-hidden']];
+        }
+      }
     }
   }
 }
