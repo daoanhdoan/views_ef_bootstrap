@@ -138,7 +138,7 @@ class ViewsEFBootstrap extends DefaultDisplayExtender {
     }
 
     $pager_plugin = $this->displayHandler->getPlugin('pager');
-    if ($pager_plugin->options['expose']['items_per_page']) {
+    if (!empty($pager_plugin->options['expose']['items_per_page'])) {
       $label = !empty($pager_plugin->options['expose']['items_per_page_label']) ? $pager_plugin->options['expose']['items_per_page_label'] : t("Items per page");
       $name = 'items_per_page';
       $items[$name] = [
@@ -150,7 +150,7 @@ class ViewsEFBootstrap extends DefaultDisplayExtender {
         'type' => 'filter'
       ];
     }
-    if ($pager_plugin->options['expose']['offset']) {
+    if (!empty($pager_plugin->options['expose']['offset'])) {
       $label = !empty($pager_plugin->options['expose']['offset_label']) ? $pager_plugin->options['expose']['offset_label'] : t("Offset");
       $name = 'offset';
       $items[$name] = [

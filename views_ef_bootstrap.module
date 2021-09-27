@@ -3,6 +3,7 @@
  * @file
  * Main module file.
  */
+
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\views\ViewExecutable;
@@ -10,12 +11,13 @@ use Drupal\views\ViewExecutable;
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function views_ef_bootstrap_form_views_exposed_form_alter(array &$form, FormStateInterface &$form_state, $form_id) {
+function views_ef_bootstrap_form_views_exposed_form_alter(array &$form, FormStateInterface &$form_state, $form_id)
+{
   if ($display = $form_state->get('display')) {
     /** @var ViewExecutable $view */
     $view = $form_state->get('view');
     $extenders = $view->getDisplay()->getExtenders();
-    if(isset($extenders['views_ef_bootstrap']) && !empty($display['display_options']['display_extenders']['views_ef_bootstrap']['views_ef_bootstrap'])) {
+    if (isset($extenders['views_ef_bootstrap']) && !empty($display['display_options']['display_extenders']['views_ef_bootstrap']['views_ef_bootstrap'])) {
       $items = $extenders['views_ef_bootstrap']->getExposeItems();
       $form['#items'] = $items;
       $groups = $extenders['views_ef_bootstrap']->buildTreeData($items);
@@ -27,7 +29,8 @@ function views_ef_bootstrap_form_views_exposed_form_alter(array &$form, FormStat
 /**
  *
  */
-function views_ef_bootstrap_preprocess_details(&$vars) {
+function views_ef_bootstrap_preprocess_details(&$vars)
+{
   if (!empty($vars['element']['#item']['bootstrap'])) {
     $element = [
       '#type' => 'container',
@@ -41,8 +44,9 @@ function views_ef_bootstrap_preprocess_details(&$vars) {
 /**
  * @see hook_form_FORM_ID_alter()
  */
-function views_ef_bootstrap_form_alter(&$form, FormStateInterface $formState, $form_id) {
-  if (preg_match("/^views_form_/", $form_id)) {
+function views_ef_bootstrap_form_alter(&$form, FormStateInterface $formState, $form_id)
+{
+  if (preg_match("/^views_form_\.*/", $form_id)) {
     if (!empty($form['header']['views_bulk_operations_bulk_form'])) {
       $form['header']['views_bulk_operations_bulk_form']['#type'] = 'details';
       $form['header']['views_bulk_operations_bulk_form']['#title'] = t('Operations');
