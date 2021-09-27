@@ -36,3 +36,15 @@ function views_ef_bootstrap_preprocess_details(&$vars) {
     $vars['children'] = \Drupal::service('renderer')->render($element, FALSE);
   }
 }
+
+/**
+ * @see hook_form_FORM_ID_alter()
+ */
+function views_ef_bootstrap_form_alter(&$form, FormStateInterface $formState, $form_id) {
+  if (preg_match("/^views_form_/", $form_id)) {
+    if (!empty($form['header']['views_bulk_operations_bulk_form'])) {
+      $form['header']['views_bulk_operations_bulk_form']['#type'] = 'details';
+      $form['header']['views_bulk_operations_bulk_form']['#title'] = t('Operations');
+    }
+  }
+}

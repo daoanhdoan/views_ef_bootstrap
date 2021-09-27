@@ -105,7 +105,7 @@ class ViewsEFBootstrap extends DefaultDisplayExtender {
       if (!$filter->options['exposed']) {
         continue;
       }
-      $field_label = ($filter->options['expose']['label']) ? $filter->options['expose']['label'] : $name;
+      $field_label = !empty($filter->options['expose']['label']) ? $filter->options['expose']['label'] : $name;
       if ((bool) $filter->options['expose']['use_operator'] === TRUE) {
         $name = "{$name}_wrapper";
       }
@@ -139,7 +139,7 @@ class ViewsEFBootstrap extends DefaultDisplayExtender {
 
     $pager_plugin = $this->displayHandler->getPlugin('pager');
     if ($pager_plugin->options['expose']['items_per_page']) {
-      $label = ($pager_plugin->options['expose']['items_per_page_label']) ? $pager_plugin->options['expose']['items_per_page_label'] : t("Items per page");
+      $label = !empty($pager_plugin->options['expose']['items_per_page_label']) ? $pager_plugin->options['expose']['items_per_page_label'] : t("Items per page");
       $name = 'items_per_page';
       $items[$name] = [
         'label' => $label,
@@ -151,7 +151,7 @@ class ViewsEFBootstrap extends DefaultDisplayExtender {
       ];
     }
     if ($pager_plugin->options['expose']['offset']) {
-      $label = ($pager_plugin->options['expose']['offset_label']) ? $pager_plugin->options['expose']['offset_label'] : t("Offset");
+      $label = !empty($pager_plugin->options['expose']['offset_label']) ? $pager_plugin->options['expose']['offset_label'] : t("Offset");
       $name = 'offset';
       $items[$name] = [
         'label' => $label,
