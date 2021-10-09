@@ -378,6 +378,9 @@ class ViewsEFBootstrap extends DefaultDisplayExtender {
           '#attributes' => ['class' => ['draggable']],
           '#weight' => $item['weight']
         ];
+        if ($item['type'] !== 'group') {
+          $element['#attributes']['class'][] = 'tabledrag-leaf';
+        }
         $branch[] = $element;
         $childrens = $this->buildRows($elements, $item['id'], $depth);
         if ($childrens) {
