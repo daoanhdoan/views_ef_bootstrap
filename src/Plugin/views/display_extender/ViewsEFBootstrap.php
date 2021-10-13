@@ -406,7 +406,6 @@ class ViewsEFBootstrap extends DefaultDisplayExtender {
     return $classes;
   }
 
-
   public function buildGroups($groups, &$form) {
     $elements = [];
     foreach($groups as $group) {
@@ -441,11 +440,12 @@ class ViewsEFBootstrap extends DefaultDisplayExtender {
         $element += $this->buildGroups($group['children'], $form);
       }
       else if($item['type'] === 'filter') {
-        $element = $form[$item['id']];
+        $filter = isset($form[$item['id']]) ? $item['id'] : (isset($form["{$item['id']}_wrapper"]) ? "{$item['id']}_wrapper" : "");
+        $element = $form[$filter];
         $element['#item'] = $item;
         $element['#weight'] = $item['weight'];
         $element['#title'] = $item['label'];
-        unset($form[$item['id']]);
+        unset($form[$filter]);
       }
       if (!empty($element)) {
         if ($item['group'] !== 'group-0' && !empty($form['#items'][$item['group']]['bootstrap'])) {
