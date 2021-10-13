@@ -5,5 +5,4 @@ core_version_requirement: ^8 || ^9 || ^10
 type: module
 package: Views
 dependencies:
- - drupal:views
- - drupal:bootstrap_library
+ - bootstrap_library

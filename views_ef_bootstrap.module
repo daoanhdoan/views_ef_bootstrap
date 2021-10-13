@@ -42,6 +42,21 @@ function views_ef_bootstrap_preprocess_details(&$vars)
 }
 
 /**
+ *
+ */
+function views_ef_bootstrap_preprocess_container(&$vars)
+{
+  if (!empty($vars['element']['#item']['bootstrap'])) {
+    $element = [
+      '#type' => 'container',
+      '#attributes' => ['class' => ['row']],
+      '#children' => $vars['children']
+    ];
+    $vars['children'] = \Drupal::service('renderer')->render($element, FALSE);
+  }
+}
+
+/**
  * @see hook_form_FORM_ID_alter()
  */
 function views_ef_bootstrap_form_alter(&$form, FormStateInterface $formState, $form_id)

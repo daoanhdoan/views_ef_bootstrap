@@ -2,6 +2,7 @@
 namespace Drupal\views_ef_bootstrap\Plugin\views\display_extender;
 
 use Drupal\Component\Utility\Html;
+use Drupal\Component\Utility\SortArray;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\views\Plugin\views\display_extender\DefaultDisplayExtender;
 use Drupal\Core\Render\RendererInterface;
@@ -181,6 +182,8 @@ class ViewsEFBootstrap extends DefaultDisplayExtender {
         $item['depth'] = $items[$item['group']]['depth'] + 1;
       }
     }
+
+    uasort($items, [SortArray::class, 'sortByWeightElement']);
     return $items;
   }
 

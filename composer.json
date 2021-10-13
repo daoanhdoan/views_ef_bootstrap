@@ -7,9 +7,6 @@
         "installer-name": "views_ef_bootstrap"
     },
     "require": {
-        "drupal/views": "*",
-        "drupal/filter": "*",
-        "drupal/user": "*",
-        "drupal/system": "*"
+        "drupal/bootstrap_library": "*"
     }
 }
