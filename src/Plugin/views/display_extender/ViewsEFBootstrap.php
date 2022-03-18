@@ -1,4 +1,5 @@
 <?php
+
 namespace Drupal\views_ef_bootstrap\Plugin\views\display_extender;
 
 use Drupal\Component\Utility\Html;
@@ -20,7 +21,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   no_ui = FALSE
  * )
  */
-class ViewsEFBootstrap extends DefaultDisplayExtender {
+class ViewsEFBootstrap extends DefaultDisplayExtender
+{
 
   /**
    * The render object.
@@ -41,7 +43,8 @@ class ViewsEFBootstrap extends DefaultDisplayExtender {
    * @param \Drupal\Core\Render\RendererInterface $render
    *   The render.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, RendererInterface $render) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, RendererInterface $render)
+  {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->renderer = $render;
   }
@@ -49,13 +52,28 @@ class ViewsEFBootstrap extends DefaultDisplayExtender {
   /**
    * {@inheritDoc}
    */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition)
+  {
     return new static(
       $configuration,
       $plugin_id,
       $plugin_definition,
       $container->get('renderer')
     );
+  }
+
+  protected function defineOptions()
+  {
+    $options = parent::defineOptions();
+    $options['views_ef_bootstrap'] = [
+      'contains' => [
+        'enabled' => ['default' => FALSE, 'bool' => TRUE],
+        'options' => ['default' => []],
+        'managed_groups' => ['default' => 'Filters'],
+        'groups' => ['default' => []]
+      ]
+    ];
+    return $options;
   }
 
   /**
@@ -66,7 +84,8 @@ class ViewsEFBootstrap extends DefaultDisplayExtender {
     return ['xs', 'sm', 'md', 'lg', 'xl'];
   }
 
-  public function getOptionGroups() {
+  public function getOptionGroups()
+  {
     $options = [];
     $group_options = array_filter(explode("\n", $this->options['views_ef_bootstrap']['managed_groups']));
     array_walk($group_options, 'trim');
@@ -80,7 +99,8 @@ class ViewsEFBootstrap extends DefaultDisplayExtender {
   }
 
 
-  public function getExposeItems() {
+  public function getExposeItems()
+  {
     $weight_delta = 0;
     $items = [];
     $groups = $this->options['views_ef_bootstrap']['groups'];
@@ -107,7 +127,7 @@ class ViewsEFBootstrap extends DefaultDisplayExtender {
         continue;
       }
       $field_label = !empty($filter->options['expose']['label']) ? $filter->options['expose']['label'] : $name;
-      if ((bool) $filter->options['expose']['use_operator'] === TRUE) {
+      if ((bool)$filter->options['expose']['use_operator'] === TRUE) {
         $name = "{$name}_wrapper";
       }
       $items[$name] = [
@@ -173,12 +193,11 @@ class ViewsEFBootstrap extends DefaultDisplayExtender {
       'type' => 'filter'
     ];
     $options = $this->getOptionGroups();
-    foreach($items as $name => &$item) {
+    foreach ($items as $name => &$item) {
       if (!isset($options[$item['group']])) {
         $item['group'] = 'group-0';
         $item['depth'] = 0;
-      }
-      else if ($item['group'] !== 'group-0' && $item['depth'] === 0) {
+      } else if ($item['group'] !== 'group-0' && $item['depth'] === 0) {
         $item['depth'] = $items[$item['group']]['depth'] + 1;
       }
     }
@@ -187,7 +206,8 @@ class ViewsEFBootstrap extends DefaultDisplayExtender {
     return $items;
   }
 
-  public function getGroupFormats() {
+  public function getGroupFormats()
+  {
     return [
       'details' => 'Details',
       'details_open' => 'Details (open)',
@@ -201,12 +221,12 @@ class ViewsEFBootstrap extends DefaultDisplayExtender {
   /**
    * {@inheritDoc}
    */
-  public function buildOptionsForm(&$form, FormStateInterface $form_state) {
+  public function buildOptionsForm(&$form, FormStateInterface $form_state)
+  {
     parent::buildOptionsForm($form, $form_state);
     if ($form_state->get('section') !== 'exposed_form_options') {
       return [];
     }
-
     $options = $this->options['views_ef_bootstrap'];
     $defaults = $this->getPluginDefinition();
 
@@ -298,7 +318,8 @@ class ViewsEFBootstrap extends DefaultDisplayExtender {
     }
   }
 
-  public function buildRows(&$elements, $rootParentID = 'group-0', $depth = -1) {
+  public function buildRows(&$elements, $rootParentID = 'group-0', $depth = -1)
+  {
     $branch = [];
     $depth++;
     foreach ($elements as $name => $item) {
@@ -340,8 +361,7 @@ class ViewsEFBootstrap extends DefaultDisplayExtender {
             '#default_value' => $item['format'],
             '#parents' => ['views_ef_bootstrap', 'groups', $name, 'format'],
           );
-        }
-        else {
+        } else {
           $element['format'] = ['#plain_text' => ''];
         }
         if ($item['type'] === 'group') {
@@ -352,8 +372,7 @@ class ViewsEFBootstrap extends DefaultDisplayExtender {
             '#default_value' => $item['bootstrap'],
             '#parents' => ['views_ef_bootstrap', 'groups', $name, 'bootstrap'],
           );
-        }
-        else {
+        } else {
           $element['bootstrap'] = ['#plain_text' => ''];
         }
 
@@ -394,7 +413,8 @@ class ViewsEFBootstrap extends DefaultDisplayExtender {
     return empty($branch) ? [] : $branch;
   }
 
-  public function getBootstrapClasses() {
+  public function getBootstrapClasses()
+  {
     $options = $this->options['views_ef_bootstrap']['options'];
     $classes = [];
     foreach (ViewsEFBootstrap::getBreakpoints() as $breakpoint) {
@@ -406,9 +426,10 @@ class ViewsEFBootstrap extends DefaultDisplayExtender {
     return $classes;
   }
 
-  public function buildGroups($groups, &$form) {
+  public function buildGroups($groups, &$form)
+  {
     $elements = [];
-    foreach($groups as $group) {
+    foreach ($groups as $group) {
       $item = $group['item'];
       $element = [];
       if ($item['type'] === 'group' && !empty($group['children'])) {
@@ -422,8 +443,7 @@ class ViewsEFBootstrap extends DefaultDisplayExtender {
             '#type' => 'details',
             '#open' => ($item['format'] == 'details_open') ? TRUE : FALSE
           );
-        }
-        else {
+        } else {
           $element = array(
             '#type' => $item['format']
           );
@@ -438,8 +458,7 @@ class ViewsEFBootstrap extends DefaultDisplayExtender {
           ]
         ];
         $element += $this->buildGroups($group['children'], $form);
-      }
-      else if($item['type'] === 'filter') {
+      } else if ($item['type'] === 'filter') {
         $filter = isset($form[$item['id']]) ? $item['id'] : (isset($form["{$item['id']}_wrapper"]) ? "{$item['id']}_wrapper" : "");
         $element = $form[$filter];
         $element['#item'] = $item;
@@ -457,8 +476,7 @@ class ViewsEFBootstrap extends DefaultDisplayExtender {
               $item['id'] => $element
             ];
             $element = $element_wrapper;
-          }
-          else {
+          } else {
             $element['#attributes']['class'] = array_merge($element['#attributes']['class'], $classes);
           }
         }
@@ -468,7 +486,8 @@ class ViewsEFBootstrap extends DefaultDisplayExtender {
     return $elements;
   }
 
-  public function buildTreeData(&$elements, $rootParentID = 'group-0', $depth = -1) {
+  public function buildTreeData(&$elements, $rootParentID = 'group-0', $depth = -1)
+  {
     $branch = [];
     $depth++;
     foreach ($elements as $key => $element) {
@@ -499,17 +518,20 @@ class ViewsEFBootstrap extends DefaultDisplayExtender {
    * @return int
    *   The weight.
    */
-  public static function sortByWeight(array $a, array $b) {
+  public static function sortByWeight(array $a, array $b)
+  {
     if ($a['item']['weight'] === $b['item']['weight']) {
       return 0;
     }
 
     return $a['item']['weight'] < $b['item']['weight'] ? -1 : 1;
   }
+
   /**
    * {@inheritdoc}
    */
-  public function getPluginDefinition() {
+  public function getPluginDefinition()
+  {
     $options = parent::defineOptions();
 
     $options['views_ef_bootstrap'] = [
@@ -525,7 +547,8 @@ class ViewsEFBootstrap extends DefaultDisplayExtender {
   /**
    * {@inheritdoc}
    */
-  public function submitOptionsForm(&$form, FormStateInterface $form_state) {
+  public function submitOptionsForm(&$form, FormStateInterface $form_state)
+  {
     // Only process options if this is an unrelated form.
     if ($form_state->get('section') === 'exposed_form_options') {
       $views_ef_bootstrap = $form_state->getValue('views_ef_bootstrap');
